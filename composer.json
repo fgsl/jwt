@@ -1,0 +1,24 @@
+{
+	"name" : "fgsl/jwt",
+	"description" : "Fgsl JWT Handler",
+	"type" : "component",
+	"keywords" : [
+		"JWT",
+		"authentication"
+	],
+	"homepage" : "https://github.com/fgsl/jwt",
+	"license" : "AGPL-3.0-only",
+	"autoload" : {
+		"psr-4" : {
+			"Fgsl\\Jwt\\" : "src/Fgsl/Jwt",
+			"Fgsl\\Test\\Jwt\\" : "tests/Fgsl/Jwt"
+		}
+	},
+	"require" : {
+		"php" : ">=7.0",
+		"phpunit/phpunit" : "^8.3"
+	},
+	"config" : {
+		"secure-http" : false
+	}
+}
