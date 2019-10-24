@@ -19,6 +19,8 @@ class JwtTest extends TestCase
         
         $payload = Jwt::getPayload($bearerToken);        
    
-        $this->assertTrue(is_object($payload));        
+        $this->assertTrue(is_object($payload));  
+        
+        $this->assertFalse(Jwt::expired($bearerToken));
     }    
 }

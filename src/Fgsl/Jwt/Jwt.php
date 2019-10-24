@@ -12,11 +12,22 @@ namespace Fgsl\Jwt;
 
 class Jwt
 {
+    /** @var string **/
     private $alg;
+    /** @var string **/
     private $typ;
+    /** @var string **/
     private $expiresAt;
+    /** @var string **/
     private $privateKeyLocation;
     
+    /**
+     * @param array  $alg                   algorithm
+     * @param string $typ                   token type
+     * @param string $iss                   issuer
+     * @param string $expiresAt             UNIX timestamp for token expiration
+     * @param string $privateKeyLocation    path of filesystem for private key file
+     */    
     public function __construct(array $alg, string $typ, string $iss, string $expiresAt, string $privateKeyLocation = null)
     {
         $this->alg = $alg;
@@ -25,7 +36,13 @@ class Jwt
         $this->expiresAt = $expiresAt;
         $this->privateKeyLocation = $privateKeyLocation;
     }
-    
+
+    /**
+     * @param string $subject                       token subject
+     * @param string $credential                    user credential
+     * @param array $payloadAdditionalParameters    claims
+     * @return string
+     */
     public function getBearerToken(string $subject, string $credential = null, array $payloadAdditionalParameters = null): string
     {
         $header = [
@@ -55,6 +72,10 @@ class Jwt
         return "$header.$payload.$signature";
     }
     
+    /**
+     * @param string $token
+     * @return object
+     */
     public static function getPayload(string $token): object
     {
         $part = explode(".",$token);
@@ -63,4 +84,21 @@ class Jwt
         }
         return json_decode(base64_decode($part[1]));
     }
+    
+    /**
+     * @param string $token
+     * @return bool
+     */
+    public static function expired(string $token): bool
+    {
+        $payload = self::getPayload($token);
+        if ($payload == false){
+            return true;
+        }
+        $currentTimestamp = date_timestamp_get(date_create());
+        if ($currentTimestamp > $payload->exp){
+            return true;
+        }
+        return false;        
+    }    
 }
