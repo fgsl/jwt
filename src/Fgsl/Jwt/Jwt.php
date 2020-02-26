@@ -75,12 +75,13 @@ class Jwt
     /**
      * @param string $token
      * @return object
+     * @throws \Exception
      */
     public static function getPayload(string $token): object
     {
         $part = explode(".",$token);
         if (count($part)<3){
-            return false;
+            throw new \Exception('token has not enough parts:' . count($part));
         }
         return json_decode(base64_decode($part[1]));
     }
