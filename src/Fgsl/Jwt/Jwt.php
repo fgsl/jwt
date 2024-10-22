@@ -12,14 +12,11 @@ namespace Fgsl\Jwt;
 
 class Jwt
 {
-    /** @var string **/
-    private $alg;
-    /** @var string **/
-    private $typ;
-    /** @var string **/
-    private $expiresAt;
-    /** @var string **/
-    private $privateKeyLocation;
+    private array $alg;
+    private string$typ;
+    private string $iss;
+    private string $expiresAt;
+    private ?string $privateKeyLocation;
     
     /**
      * @param array  $alg                   algorithm
